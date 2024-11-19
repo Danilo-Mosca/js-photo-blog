@@ -1,6 +1,7 @@
 /* Palette colori forse */
 :root {
     --color-cards: #FFFFFF;
+    --color-dark: #0E0E0E;
 }
 
 /* Reset  */
@@ -67,6 +68,7 @@ section#container {
 .flex-wrap {
     flex-wrap: wrap;
 }
+
 /* Fine cassetto degli strumenti FlexBox */
 figure {
     margin: 10px;
@@ -81,6 +83,20 @@ figure.card-container {
     gap: 10px; */
     width: calc((100% - 60px) / 3);
     background-color: var(--color-cards);
+    box-shadow: 0px 1px 8px var(--color-dark);
+}
+
+/* Animazione che gira la card all'hover del mouse */
+figure.card-container:hover {
+    transform: rotate(10deg);
+    transition: all 1s;
+}
+
+/* Animazione che riposiziona la card al punto iniziale quando
+il mouse non è più in hover */
+figure.card-container:not(:hover) {
+
+    transition: all 1s;
 }
 
 .card-container {
@@ -102,4 +118,8 @@ img.pin-image {
     left: 50%;
     /* Centro l'immagine per bene nell'asse delle X */
     transform: translateX(-50%);
+}
+
+.card-image {
+    cursor: pointer;
 }

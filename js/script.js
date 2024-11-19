@@ -28,49 +28,53 @@ function getCards() {
   console.log(endpoint + params);
 
   // Creo l'oggetto vuoto che conterrà le cards
-  const objectCards = [{}, {}, {}, {}, {}, {}];
+  // const objectCards = [{}, {}, {}, {}, {}, {}];
 
-  for (let i = 0; i < 6; i++) {
+  // for (let i = 0; i < 6; i++) {
     axios.get(baseUrl + resource, { params }).then((res) => {
       // console.log(res.data);
 
       // Recupero i singoli elementi e li aggiungo all'oggetto
-      objectCards[i].title = res.data[i].title;
-      objectCards[i].url = res.data[i].url;
+      // objectCards[i].title = res.data[i].title;
+      // objectCards[i].url = res.data[i].url;
 
 
 
-      if (objectCards.length === 6) {
+      // if (objectCards.length === 6) {
         // console.log(arrayImage);
         // console.log(arrayTitle);
 
         // Una volta ottenuti tutte le immagini e le descrizioni dal
         // server e popolato objectCards richiamo la funzione drawCards()
         // che li stampa sulla pagina web
-        drawCards(objectCards);
-      }
+        
+        console.log(res.data);
+        drawCards(res.data);
+      // }
     });
-  }
+  // }
 }
 
 
 /* Funzione che stampa i dati sulla pagina html */
-function drawCards(objectCards) {
-
+function drawCards(items) {
+  console.log(items);
+  
 
   // Recupero l'elemento container dalla pagina html
   const container = document.getElementById('container');
   container.innerHTML = '';
-  let cardContainer = document.createElement('figure');
+  // let cardContainer = document.createElement('figure');
 
-  objectCards.forEach(element => {
-    cardContainer.innerHTML += `
+  let cardsTemplate = '';
+  items.forEach(element => {
+    cardsTemplate += `
     <figure class="card-container">
         <img src="./img/pin.svg" alt="Pin" class="pin-image">
         <img src="${element.url}" alt="Prova" class="card-image">
         <figcaption class="title-image">${element.title}</figcaption>
     </figure>
     `;
-    container.appendChild(cardContainer);
   });
+  container.innerHTML += cardsTemplate;
 }
