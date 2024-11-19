@@ -1,0 +1,27 @@
+/* Reset  */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.debug {
+    border: 1px solid red;
+}
+
+body {
+    font-family: "Edu TAS Beginner", cursive;
+    background-image: url(../img/cork.png);
+}
+header {
+    background-image: url(../img/wall.png);
+    height: 150px;
+}
+
+h1 {
+    font-size: 5rem;
+    text-align: center;
+    /* Imposto il line-height uguale all'altezza del suo contenitore
+    così da mantenere il testo centrato anche in verticale */
+    line-height: 150px;
+}
