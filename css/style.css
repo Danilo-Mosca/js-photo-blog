@@ -1,3 +1,8 @@
+/* Palette colori forse */
+:root {
+    --color-cards: #FFFFFF;
+}
+
 /* Reset  */
 * {
     margin: 0;
@@ -9,10 +14,20 @@
     border: 1px solid red;
 }
 
+/* Classe fluida per le immagini */
+img {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    object-fit: cover;
+}
+
 body {
     font-family: "Edu TAS Beginner", cursive;
     background-image: url(../img/cork.png);
+    font-size: 1.5rem;
 }
+
 header {
     background-image: url(../img/wall.png);
     height: 150px;
@@ -24,4 +39,50 @@ h1 {
     /* Imposto il line-height uguale all'altezza del suo contenitore
     così da mantenere il testo centrato anche in verticale */
     line-height: 150px;
+}
+
+section#container {
+    width: 1400px;
+    max-width: 1400px;
+    margin: 50px auto;
+}
+
+/* Cassetto degli strumenti FlexBox */
+.d-flex {
+    display: flex;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-content-center {
+    align-content: center;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+/* Fine cassetto degli strumenti FlexBox */
+figure {
+    margin: 10px;
+    overflow: hidden;
+}
+
+figure#card-image {
+    padding: 20px;
+}
+figure.card-container {
+    /* flex: 1 0 150px;
+    gap: 10px; */
+    width: calc((100% - 60px) / 3);
+    background-color: var(--color-cards);
+    /* Imposto la card a position: relative per poterci inserire lo
+    spillo al centro */
+    position: relative;
+}
+
+figcaption {
+    padding: 0 20px;
 }
