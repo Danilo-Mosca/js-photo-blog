@@ -1,3 +1,5 @@
+"use strict";
+console.clear();
 /*
 *Milestone 1*
 Sfruttando gli screen e gli asset in allegato riproduciamo la grafica proposta in maniera statica: utilizzando soltanto HTML e CSS e riproducendo una singola fotografia (usiamo una qualunque immagine a piacimento)
@@ -30,46 +32,44 @@ function getCards() {
   // Creo l'oggetto vuoto che conterrà le cards
   // const objectCards = [{}, {}, {}, {}, {}, {}];
 
-  // for (let i = 0; i < 6; i++) {
-    axios.get(baseUrl + resource, { params }).then((res) => {
-      // console.log(res.data);
+  axios.get(baseUrl + resource, { params }).then((res) => {
+    // console.log(res.data);
 
-      // Recupero i singoli elementi e li aggiungo all'oggetto
-      // objectCards[i].title = res.data[i].title;
-      // objectCards[i].url = res.data[i].url;
+    // Recupero i singoli elementi e li aggiungo all'oggetto
+    // objectCards[i].title = res.data[i].title;
+    // objectCards[i].url = res.data[i].url;
 
+    // if (objectCards.length === 6) {
+    // console.log(arrayImage);
+    // console.log(arrayTitle);
 
+    // Una volta ottenuti tutte le immagini e le descrizioni dal
+    // server e popolato objectCards richiamo la funzione drawCards()
+    // che li stampa sulla pagina web
 
-      // if (objectCards.length === 6) {
-        // console.log(arrayImage);
-        // console.log(arrayTitle);
-
-        // Una volta ottenuti tutte le immagini e le descrizioni dal
-        // server e popolato objectCards richiamo la funzione drawCards()
-        // che li stampa sulla pagina web
-        
-        console.log(res.data);
-        drawCards(res.data);
-      // }
-    }).catch((error)=> {
-      console.log(error);
-    }).finally(()=>{});
-  // }
+    console.log(res.data);
+    drawCards(res.data);
+  }).catch((error) => {
+    console.log(error);
+  }).finally(() => { });
 }
 
 
-/* Funzione che stampa i dati sulla pagina html */
-function drawCards(items) {
-  console.log(items);
-  
 
-  // Recupero l'elemento container dalla pagina html
+/* Funzione che stampa i dati sulla pagina html */
+function drawCards(serverItems) {
+  
+  /* PRIMA SOLUZIONE: inserisco tutti i tag in una variabile     *
+   * (cardsTemplate) usando i Template literals, e poi li        *
+   * appendo tutti al loro container con il metodo innerHTML()   *
+
+    // console.log(serverItems);
+    // Recupero l'elemento container dalla pagina html
   const container = document.getElementById('container');
   container.innerHTML = '';
-  // let cardContainer = document.createElement('figure');
 
   let cardsTemplate = '';
-  items.forEach(element => {
+  serverItems.forEach(element => {
     cardsTemplate += `
     <figure class="card-container">
         <img src="./img/pin.svg" alt="Pin" class="pin-image">
@@ -79,4 +79,44 @@ function drawCards(items) {
     `;
   });
   container.innerHTML += cardsTemplate;
+
+  FINE PRIMA SOLUZIONE */
+
+  
+  
+  /* SECONDA SOLUZIONE ADOTTATA: creando i singoli elementi nodi *
+   * che fanno parte del template html e aggiungendoli uno ad    *
+   * uno nella pagina html con il metodo appendCHild()           */
+
+  const container = document.getElementById('container');
+  container.innerHTML = '';
+  
+  serverItems.forEach(element => {
+    // mi creo i singoli elementi ad ogni iterazione del ciclo
+    const elementFigure = document.createElement('figure');
+    const elementImgPin = document.createElement('img');
+    const elementImg = document.createElement('img');
+    const elementFigcaption = document.createElement('figcaption');
+    
+    // Recupero le loro classi
+    elementFigure.classList.add('card-container');
+    elementImgPin.classList.add('pin-image');
+    elementImg.classList.add('card-image');
+    elementFigcaption.classList.add('title-image');
+    
+    // Aggiungo le loro proprietà
+    elementImgPin.src = "./img/pin.svg";
+    elementImgPin.alt = "Pin";
+    elementImg.src = element.url;
+    elementImg.alt = "Prova";
+    elementFigcaption.textContent = element.title;
+
+    // Aggiungo l'elemento <figure> dentro al container
+    container.appendChild(elementFigure);
+
+    // Aggiungo gli altri elementi dentro il tag <figure>
+    elementFigure.appendChild(elementImgPin);
+    elementFigure.appendChild(elementImg);
+    elementFigure.appendChild(elementFigcaption);
+  });
 }

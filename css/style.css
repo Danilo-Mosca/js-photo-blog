@@ -133,6 +133,8 @@ img.pin-image {
     text-transform: uppercase;
 }
 
+
+
 /* -------------------------------------------- */
 /* -------------- MEDIA QUERY ----------------- */
 /* -------------------------------------------- */
@@ -157,7 +159,7 @@ img.pin-image {
 }
 
 @media screen and (max-width: 720px) {
-    
+
     section#container {
         width: 530px;
         max-width: 530px;
@@ -169,7 +171,8 @@ img.pin-image {
         width: 100%;
         max-width: 100%;
     }
-        figure.card-container {
-            width: 80%;
-        }
+
+    figure.card-container {
+        width: 80%;
+    }
 }
