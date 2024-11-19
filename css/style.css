@@ -64,25 +64,42 @@ section#container {
     align-items: center;
 }
 
+.flex-wrap {
+    flex-wrap: wrap;
+}
 /* Fine cassetto degli strumenti FlexBox */
 figure {
     margin: 10px;
-    overflow: hidden;
 }
 
-figure#card-image {
+figure {
     padding: 20px;
 }
+
 figure.card-container {
     /* flex: 1 0 150px;
     gap: 10px; */
     width: calc((100% - 60px) / 3);
     background-color: var(--color-cards);
+}
+
+.card-container {
     /* Imposto la card a position: relative per poterci inserire lo
     spillo al centro */
     position: relative;
 }
 
+/* Padding tra testo e immagine della card */
 figcaption {
-    padding: 0 20px;
+    padding: 20px;
+}
+
+img.pin-image {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: -10px;
+    left: 50%;
+    /* Centro l'immagine per bene nell'asse delle X */
+    transform: translateX(-50%);
 }
