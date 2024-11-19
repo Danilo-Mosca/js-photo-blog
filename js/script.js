@@ -51,7 +51,9 @@ function getCards() {
         console.log(res.data);
         drawCards(res.data);
       // }
-    });
+    }).catch((error)=> {
+      console.log(error);
+    }).finally(()=>{});
   // }
 }
 

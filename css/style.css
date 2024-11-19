@@ -43,8 +43,8 @@ h1 {
 }
 
 section#container {
-    width: 1400px;
-    max-width: 1400px;
+    width: 1200px;
+    max-width: 1200px;
     margin: 50px auto;
 }
 
@@ -86,6 +86,12 @@ figure.card-container {
     box-shadow: 0px 1px 8px var(--color-dark);
 }
 
+/* All'hover del mouse sul container aumento lo spessore dell'ombra
+della box shadow */
+figure.card-container:hover {
+    box-shadow: 5px 5px 18px var(--color-dark);
+}
+
 /* Animazione che gira la card all'hover del mouse */
 figure.card-container:hover {
     transform: rotate(10deg);
@@ -95,7 +101,6 @@ figure.card-container:hover {
 /* Animazione che riposiziona la card al punto iniziale quando
 il mouse non è più in hover */
 figure.card-container:not(:hover) {
-
     transition: all 1s;
 }
 
@@ -122,4 +127,49 @@ img.pin-image {
 
 .card-image {
     cursor: pointer;
+}
+
+.title-image::first-letter {
+    text-transform: uppercase;
+}
+
+/* -------------------------------------------- */
+/* -------------- MEDIA QUERY ----------------- */
+/* -------------------------------------------- */
+
+@media screen and (max-width: 1200px) {
+
+    section#container {
+        width: 900px;
+        max-width: 900px;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    section#container {
+        width: 650px;
+        max-width: 650px;
+    }
+
+    figure.card-container {
+        width: calc((100% - 60px) / 2);
+    }
+}
+
+@media screen and (max-width: 720px) {
+    
+    section#container {
+        width: 530px;
+        max-width: 530px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    section#container {
+        width: 100%;
+        max-width: 100%;
+    }
+        figure.card-container {
+            width: 80%;
+        }
 }
