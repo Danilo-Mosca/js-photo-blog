@@ -50,11 +50,11 @@ function getCards() {
 
     console.log(res.data);
     const cards = res.data;
-    drawCards(res.data);
+    drawCards(cards);
   }).catch((error) => {
     console.log(error);
   }).finally(() => {
-    // Alla fine tolgo il loader che simula il caricamento
+    // Alla fine, trascorso un secondo tolgo il loader che simula il caricamento
     const loader = document.querySelector('#loader');
     setTimeout(() => {
       loader.classList.add('d-none');
@@ -137,7 +137,7 @@ function drawCards(serverItems) {
 
 
 /* Funzione per far comparire l'overlay a tutti schermo al click sull'immagine */
-function getOverlay(serverItems) {
+function getOverlay(cards) {
   const figures = document.querySelectorAll('.card-container');
   const overlay = document.getElementById('overlay');
   const btnChiudi = document.querySelector('#overlay button');
@@ -163,7 +163,7 @@ function getOverlay(serverItems) {
       imageOverlay.alt = imgSelected.alt;
       */
       /* Metodo 2 utilizzato: */
-      const photo = serverItems.find((element) => {
+      const photo = cards.find((element) => {
         // Controllo se gli id sono uguali e restituisco la rispettiva foto
         return element.id === parseInt(figure.id);
       });
