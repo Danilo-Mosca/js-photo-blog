@@ -101,6 +101,12 @@ figure.card-container:hover {
     z-index: 100;
 }
 
+/* Seleziono e nascondo l'elemento con la classe ".pin-image" (l'immagine con lo
+spillino) all'hover del mouse sul contenitore della card */
+figure.card-container:hover [class|="pin-image"] {
+    display: none;
+}
+
 /* Animazione che riposiziona la card al punto iniziale quando
 il mouse non è più in hover */
 figure.card-container:not(:hover) {
