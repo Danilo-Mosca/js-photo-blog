@@ -170,6 +170,11 @@ img.pin-image {
     color: var(--color-cards);
     font-size: 1rem;
     font-weight: bold;
+    cursor: pointer;
+}
+
+#overlay button:hover {
+    background-color: #771796;
 }
 
 /* Creo la classe display: none */

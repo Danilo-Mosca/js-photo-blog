@@ -156,10 +156,21 @@ function getOverlay(serverItems) {
       // console.log(figure.id);
       // rimuovo la classe d-none per mostrare l'overlay
       overlay.classList.remove('d-none');
+      /* Metodo 1:
       const imgSelected = figure.querySelector('img.card-image');
       // console.log(imgSelected);
       imageOverlay.src = imgSelected.src;
       imageOverlay.alt = imgSelected.alt;
+      */
+      /* Metodo 2 utilizzato: */
+      const photo = serverItems.find((element) => {
+        // Controllo se gli id sono uguali e restituisco la rispettiva foto
+        return element.id === parseInt(figure.id);
+      });
+      // Assegno l'url e l'alternative text esatto corrispondente alla foto
+      imageOverlay.src = photo.url;
+      imageOverlay.alt = photo.title;
+      console.log(photo);
     });
   });
 }
