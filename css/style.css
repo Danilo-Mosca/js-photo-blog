@@ -70,6 +70,7 @@ section#container {
 }
 
 /* Fine cassetto degli strumenti FlexBox */
+
 figure {
     margin: 10px;
 }
@@ -96,6 +97,8 @@ figure.card-container:hover {
 figure.card-container:hover {
     transform: rotate(10deg);
     transition: all 1s;
+    /* All'hover del mouse metto la card selezionata sempre in primo piano */
+    z-index: 100;
 }
 
 /* Animazione che riposiziona la card al punto iniziale quando
@@ -129,8 +132,78 @@ img.pin-image {
     cursor: pointer;
 }
 
-.title-image::first-letter {
-    text-transform: uppercase;
+/* Trasformo le iniziali di ogni parola del testo sulle card in maiuscolo */
+.title-image {
+    text-transform: capitalize;
+}
+
+/* Classe per il layout dell'immagine in primo piano */
+#overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+/* Aggiungo grandezze fisse all'immagine in overlay */
+#overlay img {
+    width: 600px;
+    height: 600px;
+    object-fit: cover;
+}
+
+/* Aggiungo un pò di stile al pulsante in overlay */
+#overlay button {
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 5px 5px 18px var(--color-dark);
+    background-color: #D32776;
+    color: var(--color-cards);
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Creo la classe display: none */
+.d-none {
+    display: none !important;
+}
+
+/* Soluzione 1:
+   Creo la classe specifica per display: none
+   perchè overlay avendo una proprietà display: flex; 
+   ed avendo un id, questo ha priorità maggiore rispetto al
+   display: none nella classe d-none.
+   Soluzione 2: aggiungere al display: none; l'istruzione !important 
+#overlay.d-none {
+    display: none;
+} */
+
+/* Classe loader per il caricamento dell'immagine */
+#loader {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    color: white;
+    /* Imposto lo z-index altrimenti non si vedremme l'icona animata di font-awesone
+    per il caricamento */
+    z-index: 100;
 }
 
 
@@ -163,6 +236,10 @@ img.pin-image {
     section#container {
         width: 530px;
         max-width: 530px;
+    }
+
+    .card-container {
+        font-size: 1.2rem;
     }
 }
 

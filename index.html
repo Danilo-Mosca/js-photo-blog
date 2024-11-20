@@ -29,7 +29,9 @@
         <h1>ESTATE '24</h1>
     </header>
     <main class="wrapper">
-
+        <!-- Loader per simulare il caricamento iniziale -->
+        <div id="loader"><i class="fa-solid fa-spinner fa-spin-pulse"></i></div>
+        
         <section id="container" class="d-flex justify-center align-content-center flex-wrap">
             <!-- TEMPLATE DELLE CARDS
             <figure class="card-container">
@@ -44,6 +46,10 @@
         </section>
 
     </main>
+    <div id="overlay" class="d-none">
+        <button>Chiudi</button>
+        <img src="img/cork.png" alt="Chiudi">
+    </div>
 </body>
 
 </html>

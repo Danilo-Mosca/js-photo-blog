@@ -18,6 +18,7 @@ rendi la pagina responsive, in modo che su mobile e tablet le foto si dispongano
 getCards();
 
 
+
 /* Funzione che recupera i dati dal server */
 function getCards() {
   const baseUrl = 'https://jsonplaceholder.typicode.com/';
@@ -48,17 +49,24 @@ function getCards() {
     // che li stampa sulla pagina web
 
     console.log(res.data);
+    const cards = res.data;
     drawCards(res.data);
   }).catch((error) => {
     console.log(error);
-  }).finally(() => { });
+  }).finally(() => {
+    // Alla fine tolgo il loader che simula il caricamento
+    const loader = document.querySelector('#loader');
+    setTimeout(() => {
+      loader.classList.add('d-none');
+    }, 1000);
+  });
 }
 
 
 
 /* Funzione che stampa i dati sulla pagina html */
 function drawCards(serverItems) {
-  
+
   /* PRIMA SOLUZIONE: inserisco tutti i tag in una variabile     *
    * (cardsTemplate) usando i Template literals, e poi li        *
    * appendo tutti al loro container con il metodo innerHTML()   *
@@ -82,33 +90,35 @@ function drawCards(serverItems) {
 
   FINE PRIMA SOLUZIONE */
 
-  
-  
+
+
   /* SECONDA SOLUZIONE ADOTTATA: creando i singoli elementi nodi *
    * che fanno parte del template html e aggiungendoli uno ad    *
    * uno nella pagina html con il metodo appendCHild()           */
 
   const container = document.getElementById('container');
   container.innerHTML = '';
-  
+
   serverItems.forEach(element => {
     // mi creo i singoli elementi ad ogni iterazione del ciclo
     const elementFigure = document.createElement('figure');
     const elementImgPin = document.createElement('img');
     const elementImg = document.createElement('img');
     const elementFigcaption = document.createElement('figcaption');
-    
+
     // Recupero le loro classi
     elementFigure.classList.add('card-container');
     elementImgPin.classList.add('pin-image');
     elementImg.classList.add('card-image');
     elementFigcaption.classList.add('title-image');
-    
+
     // Aggiungo le loro proprietà
+    elementFigure.id = element.id;
     elementImgPin.src = "./img/pin.svg";
     elementImgPin.alt = "Pin";
+    elementImg.id = element.id;
     elementImg.src = element.url;
-    elementImg.alt = "Prova";
+    elementImg.alt = element.title;
     elementFigcaption.textContent = element.title;
 
     // Aggiungo l'elemento <figure> dentro al container
@@ -118,5 +128,38 @@ function drawCards(serverItems) {
     elementFigure.appendChild(elementImgPin);
     elementFigure.appendChild(elementImg);
     elementFigure.appendChild(elementFigcaption);
+  });
+
+  // Richiamo la funzione che fara' comparire l'overlay
+  getOverlay(serverItems);
+}
+
+
+
+/* Funzione per far comparire l'overlay a tutti schermo al click sull'immagine */
+function getOverlay(serverItems) {
+  const figures = document.querySelectorAll('.card-container');
+  const overlay = document.getElementById('overlay');
+  const btnChiudi = document.querySelector('#overlay button');
+  const imageOverlay = document.querySelector('#overlay img');
+
+  btnChiudi.addEventListener('click', (() => {
+    // aggiungo la classe d-none per nascondere l'overlay
+    overlay.classList.add('d-none');
+  }));
+
+  // console.log(figures);
+  figures.forEach((figure) => {
+    // console.log(figure);
+    figure.addEventListener('click', function () {
+      // console.log(figure);
+      // console.log(figure.id);
+      // rimuovo la classe d-none per mostrare l'overlay
+      overlay.classList.remove('d-none');
+      const imgSelected = figure.querySelector('img.card-image');
+      // console.log(imgSelected);
+      imageOverlay.src = imgSelected.src;
+      imageOverlay.alt = imgSelected.alt;
+    });
   });
 }
