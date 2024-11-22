@@ -47,6 +47,7 @@ section#container {
     width: 1200px;
     max-width: 1200px;
     margin: 50px auto;
+    cursor: pointer;
 }
 
 /* Cassetto degli strumenti FlexBox */

@@ -24,12 +24,11 @@ function getCards() {
   const baseUrl = 'https://jsonplaceholder.typicode.com/';
   const resource = 'photos';
 
-
   const endpoint = baseUrl + resource;
   const params = { "_limit": 6 };
   // console.log(endpoint+'?_limit=6');
   console.log(endpoint + params);
-  // Chiamata Ajax
+  // Prelevo i dati da una chiamata Ajax
   axios.get(baseUrl + resource, { params }).then((res) => {
     console.log(res.data);
     const cards = res.data;
@@ -72,8 +71,6 @@ function drawCards(serverItems) {
   container.innerHTML += cardsTemplate;
 
   FINE PRIMA SOLUZIONE */
-
-
 
   /* SECONDA SOLUZIONE ADOTTATA: creando i singoli elementi nodi *
    * che fanno parte del template html e aggiungendoli uno ad    *
@@ -126,21 +123,30 @@ function getOverlay(cards) {
   // Recupero il pulsante Chiudi
   const btnChiudi = overlay.querySelector('#overlay button:nth-child(1)');
   // Recupero il pulsante Cancella
-  const btnCancella = overlay.querySelector('#overlay button:nth-child(2)');
+  const btnRemove = overlay.querySelector('#overlay button:nth-child(2)');
   const imageOverlay = document.querySelector('#overlay img');
 
   // Gestore degli eventi per la chiusura dell'overlay
   btnChiudi.addEventListener('click', (() => {
     // aggiungo la classe d-none per nascondere l'overlay
     overlay.classList.add('d-none');
+    // Inizializzo il dataset e gli imposto il valore iniziale a zero
+    overlay.dataset.dataId = false;
+    overlay.dataset.dataIndex = false;
   }));
 
 
 
-  figures.forEach((figure) => {
-    figure.addEventListener('click', function () {
-      // rimuovo la classe d-none per mostrare l'overlay
+  figures.forEach((figure, index) => {
+    figure.addEventListener('click', function (event) {
+      event.stopPropagation();
+      // Rimuovo la classe d-none per mostrare l'overlay
       overlay.classList.remove('d-none');
+      // Al primo dataset gli assegno l'id del card-container (equivalente all'indice della figure stampata nell'html. Ps: l'indice parte da 1 non da 0))
+      overlay.dataset.dataId = figure.id;
+      // Al secondo assegno l'id corrente che sto visualizzando che equivale all'indice dell'oggetto cards
+      overlay.dataset.dataIndex = index;
+
       /* Metodo 1:
       const imgSelected = figure.querySelector('img.card-image');
       imageOverlay.src = imgSelected.src;
@@ -154,35 +160,31 @@ function getOverlay(cards) {
       // Assegno l'url e l'alternative text esatto corrispondente alla foto
       imageOverlay.src = photo.url;
       imageOverlay.alt = photo.title;
-      // console.log(photo);
       /* End Metodo 2 */
-
-
-
-      /* Gestore degli eventi per la cancellazione della fotografia */
-      btnCancella.addEventListener('click', ((event) => {
-        // console.log(event.currentTarget);
-        // event.stopPropagation();
-        // aggiungo la classe d-none per nascondere l'overlay
-        overlay.classList.add('d-none');
-        // Utilizzo il metodo findIndex() per mappare l'oggetto cards e vedere a quale indice corrisponde la figure che voglio cancellare
-        const indexCards = cards.findIndex((element, index) => {
-          // Ritorno l'indice corrispondente all'elemento da cancellare con la seguente condizione
-          return parseInt(element.id) === parseInt(figure.id);
-        });
-        // Se indexCards non e' -1 cancello dall'array cards il rispettivo elemento con indice indexCards
-        if (indexCards !== -1) {
-          cards.splice(indexCards, 1);
-          // Rimuovo la figure visualizzata nell'overlay
-          figure.remove();
-        }
-
-        if (cards.length === 0) {
-          countdown();
-        }
-      }));
     });
   });
+
+
+  /* Gestore degli eventi per la cancellazione della fotografia */
+  btnRemove.addEventListener('click', ((event) => {
+    // aggiungo la classe d-none per nascondere l'overlay
+    overlay.classList.add('d-none');
+    // Assegno i valori attuali dei dataset a due variabili
+    const figure_id = overlay.dataset.dataId;
+    const index = overlay.dataset.dataIndex;
+    // Se i due indici sono diversi da false, e quindi non vuoti o comunque diversi
+    // dal valore iniziale che gli ho assegnato 
+    if (figure_id !== false && index !== false) {
+      // Allora cancello l'oggetto corrispondente a quell'indice dall'array di oggetti cards
+      cards.splice(index, 1);
+      // Ed elimino dall'html la foto corrispondente a index
+      document.getElementById(figure_id).remove();
+    }
+
+    if (cards.length === 0) {
+      countdown();
+    }
+  }));
 }
 
 
