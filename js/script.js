@@ -29,25 +29,8 @@ function getCards() {
   const params = { "_limit": 6 };
   // console.log(endpoint+'?_limit=6');
   console.log(endpoint + params);
-
-  // Creo l'oggetto vuoto che conterrà le cards
-  // const objectCards = [{}, {}, {}, {}, {}, {}];
-
+  // Chiamata Ajax
   axios.get(baseUrl + resource, { params }).then((res) => {
-    // console.log(res.data);
-
-    // Recupero i singoli elementi e li aggiungo all'oggetto
-    // objectCards[i].title = res.data[i].title;
-    // objectCards[i].url = res.data[i].url;
-
-    // if (objectCards.length === 6) {
-    // console.log(arrayImage);
-    // console.log(arrayTitle);
-
-    // Una volta ottenuti tutte le immagini e le descrizioni dal
-    // server e popolato objectCards richiamo la funzione drawCards()
-    // che li stampa sulla pagina web
-
     console.log(res.data);
     const cards = res.data;
     drawCards(cards);
@@ -140,25 +123,26 @@ function drawCards(serverItems) {
 function getOverlay(cards) {
   const figures = document.querySelectorAll('.card-container');
   const overlay = document.getElementById('overlay');
-  const btnChiudi = document.querySelector('#overlay button');
+  // Recupero il pulsante Chiudi
+  const btnChiudi = overlay.querySelector('#overlay button:nth-child(1)');
+  // Recupero il pulsante Cancella
+  const btnCancella = overlay.querySelector('#overlay button:nth-child(2)');
   const imageOverlay = document.querySelector('#overlay img');
 
+  // Gestore degli eventi per la chiusura dell'overlay
   btnChiudi.addEventListener('click', (() => {
     // aggiungo la classe d-none per nascondere l'overlay
     overlay.classList.add('d-none');
   }));
 
-  // console.log(figures);
+
+
   figures.forEach((figure) => {
-    // console.log(figure);
     figure.addEventListener('click', function () {
-      // console.log(figure);
-      // console.log(figure.id);
       // rimuovo la classe d-none per mostrare l'overlay
       overlay.classList.remove('d-none');
       /* Metodo 1:
       const imgSelected = figure.querySelector('img.card-image');
-      // console.log(imgSelected);
       imageOverlay.src = imgSelected.src;
       imageOverlay.alt = imgSelected.alt;
       */
@@ -170,7 +154,50 @@ function getOverlay(cards) {
       // Assegno l'url e l'alternative text esatto corrispondente alla foto
       imageOverlay.src = photo.url;
       imageOverlay.alt = photo.title;
-      console.log(photo);
+      // console.log(photo);
+      /* End Metodo 2 */
+
+
+
+      /* Gestore degli eventi per la cancellazione della fotografia */
+      btnCancella.addEventListener('click', ((event) => {
+        // console.log(event.currentTarget);
+        // event.stopPropagation();
+        // aggiungo la classe d-none per nascondere l'overlay
+        overlay.classList.add('d-none');
+        // Utilizzo il metodo findIndex() per mappare l'oggetto cards e vedere a quale indice corrisponde la figure che voglio cancellare
+        const indexCards = cards.findIndex((element, index) => {
+          // Ritorno l'indice corrispondente all'elemento da cancellare con la seguente condizione
+          return parseInt(element.id) === parseInt(figure.id);
+        });
+        // Se indexCards non e' -1 cancello dall'array cards il rispettivo elemento con indice indexCards
+        if (indexCards !== -1) {
+          cards.splice(indexCards, 1);
+          // Rimuovo la figure visualizzata nell'overlay
+          figure.remove();
+        }
+
+        if (cards.length === 0) {
+          countdown();
+        }
+      }));
     });
   });
+}
+
+
+/* Funzione che ricaricare la pagina dopo 10 secondi */
+function countdown() {
+  let seconds = 10;
+  const container = document.getElementById('container');
+  container.innerHTML = `<h1>Tra ${seconds--} secondi la pagina verra ricaricata</h1> `;
+  const timer = setInterval(() => {
+    if (seconds > 0) {
+      container.innerHTML = `<h1>Tra ${seconds--} secondi la pagina verra ricaricata</h1> `;
+    }
+    else {
+      clearInterval(timer);
+      location.reload();
+    }
+  }, 1000);
 }
