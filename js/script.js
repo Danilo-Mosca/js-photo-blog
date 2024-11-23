@@ -130,7 +130,7 @@ function getOverlay(cards) {
   btnChiudi.addEventListener('click', (() => {
     // aggiungo la classe d-none per nascondere l'overlay
     overlay.classList.add('d-none');
-    // Inizializzo il dataset e gli imposto il valore iniziale a zero
+    // Imposto il dataset a false quando clicco sul btnChiudi
     overlay.dataset.dataId = false;
     overlay.dataset.dataIndex = false;
   }));
@@ -147,12 +147,14 @@ function getOverlay(cards) {
       // Al secondo assegno l'id corrente che sto visualizzando che equivale all'indice dell'oggetto cards
       overlay.dataset.dataIndex = index;
 
-      /* Metodo 1:
+
+
+      /* Metodo 1 utilizzato: */
       const imgSelected = figure.querySelector('img.card-image');
       imageOverlay.src = imgSelected.src;
       imageOverlay.alt = imgSelected.alt;
-      */
-      /* Metodo 2 utilizzato: */
+
+      /* Metodo 2:
       const photo = cards.find((element) => {
         // Controllo se gli id sono uguali e restituisco la rispettiva foto
         return element.id === parseInt(figure.id);
@@ -173,10 +175,17 @@ function getOverlay(cards) {
     const figure_id = overlay.dataset.dataId;
     const index = overlay.dataset.dataIndex;
     // Se i due indici sono diversi da false, e quindi non vuoti o comunque diversi
-    // dal valore iniziale che gli ho assegnato 
+    // dal valore iniziale che gli ho assegnato
     if (figure_id !== false && index !== false) {
+      // Controllo se l'indice è presente nell'array di oggetti cards
+      const indexCardDelete = cards.findIndex((value) => {
+        return value.id === parseInt(index);
+      });
+      // console.log("index: " + index);
+      // console.log("indiceCards: " + indexCardDelete);
+
       // Allora cancello l'oggetto corrispondente a quell'indice dall'array di oggetti cards
-      cards.splice(index, 1);
+      cards.splice(parseInt(indexCardDelete), 1);
       // Ed elimino dall'html la foto corrispondente a index
       document.getElementById(figure_id).remove();
     }
